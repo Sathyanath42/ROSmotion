@@ -1,3 +1,8 @@
+For the duration of this ill be using ROS melodic with an ubuntu version 18.04. Ill be using the virtual machine from oracle to set up the environment and visual studio code as the IDE
+
+
+****************************************************Creating workspaces*****************************************************
+
 Create a new catkin workspace
 $ mkdir catkinm_ws
 ~/catkinm_ws$ mkdir src
