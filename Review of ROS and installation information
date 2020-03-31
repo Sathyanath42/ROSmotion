@@ -1,1 +1,9 @@
+Create a new catkin workspace
+$ mkdir catkinm_ws
+~/catkinm_ws$ mkdir src
+~/catkinm_ws$ catkin_make
 
+Finally define the following lines in the ~/.bashrc file
+source /home/sathyanath/catkinm_ws/devel/setup.bash
+
+Ensure that other catkin workspaces are commented out
