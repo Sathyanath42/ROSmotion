@@ -16,4 +16,10 @@ Ensure that other catkin workspaces are commented out
 The IDE to be used is visual studio code which has an inbuilt interpreter and code completion features.
 Further the required file under the src file can be simply dragged and dropped into the workspace.
 
-Setting up github to acces files via command
+***************************************Setting up github to access files via command*********************************************
+
+$ sudo apt-get install git
+~/catkin_ws/src$ git clone https://github.com/aniskoubaa/ros_essentials_cpp.git
+
+This will give us a copy of the folder in our workspace within src
+run catkin_make to ensure the files are in order.
