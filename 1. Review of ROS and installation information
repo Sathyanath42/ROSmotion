@@ -8,13 +8,12 @@ $ mkdir catkinm_ws
 ~/catkinm_ws$ mkdir src
 ~/catkinm_ws$ catkin_make
 
-Finally define the following lines in the ~/.bashrc file
-source /home/sathyanath/catkinm_ws/devel/setup.bash
-
 Ensure that other catkin workspaces are commented on out to prevent the script from launching with an unintended workspace
 The IDE to be used is visual studio code which has an inbuilt interpreter and code completion features.
 Further the required file under the src file can be simply dragged and dropped into the workspace.
 
+Finally define the following lines in the ~/.bashrc file
+source /home/sathyanath/catkinm_ws/devel/setup.bash
 ***************************************Setting up github to access files via command*********************************************
 
 $ sudo apt-get install git
