@@ -1,0 +1,40 @@
+The aim is to produce a program that provides commands to the turtle sim to make it move by subscribing to the topic we provide - Positon of the Robot
+
+***************************************************Python Code
+
+#this serves as a subscriber to the motion info topic 
+#and serves as a publisher to feed the directions to the turtle
+#find topics that give the position
+#find topics that make it move
+#!/usr/bin/env python
+import rospy
+#from std_msgs.msg import String 
+from geometry_msgs.msg import Twist
+from turtlesim.msg import Pose
+
+def callback_receive_motion_data()
+
+# We import std_msgs to use the message string which contains a simple string data in it.
+
+def turt_mov():
+
+    rospy.init_node('turtle_mov_cmd')
+    sub = rospy.Subscriber("/turtle1/pose",Pose, callback_receive_motion_data)
+#This tells rospy the name of the node
+#if we add anonymous = True, then the uniqueness of the node is confirmed by adding random numbers at the end of the node.
+
+    pub = rospy.Publisher("/turtle1/cmd_vel",Twist,queue_size=10) 
+
+#We create a publisher with a name , a type and a queue size
+#Here queue_size acts as a buffer to give time for the subscriber to receive the message
+
+    rospy.spin()
+
+#Along with the method sleep(), it offers an easy way to set the desired rate
+#WIth an argument of 2, the loop would run 2 times in a second
+
+if name == '  main  ';
+   try:
+       turt_mov()
+    except rospy.ROSInterruptException:
+        pass
