@@ -10,31 +10,52 @@ The aim is to produce a program that provides commands to the turtle sim to make
 import rospy
 #from std_msgs.msg import String 
 from geometry_msgs.msg import Twist
-from turtlesim.msg import Pose
+#from turtlesim.msg import Pose
 
-def callback_receive_motion_data()
+#def callback_receive_motion_data(msg):
+#    rospy.loginfo("message received:")
+#    rospy.loginfo(msg)
+#    twist = Twist()
+#    twist.linear.x = msg.x
+#    twist.linear.y = msg.y
+#    pub.publish(twist)
+
+#rosmsg show turtlesim/Pose
+#float32 x
+#float32 y
+#float32 theta
+#float32 linear_velocity
+#float32 angular_velocity
+
+#geometry_msgs/Vector3 linear
+#  float64 x
+#  float64 y
+#  float64 z
+#geometry_msgs/Vector3 angular
+#  float64 x
+#  float64 y
+#  float64 z
+
 
 # We import std_msgs to use the message string which contains a simple string data in it.
 
 def turt_mov():
 
-    rospy.init_node('turtle_mov_cmd')
-    sub = rospy.Subscriber("/turtle1/pose",Pose, callback_receive_motion_data)
-#This tells rospy the name of the node
-#if we add anonymous = True, then the uniqueness of the node is confirmed by adding random numbers at the end of the node.
-
+    rospy.init_node('turtle_mov_cmd',anonymous = True)
+    #sub = rospy.Subscriber("/turtle1/pose",Pose, callback_receive_motion_data)
     pub = rospy.Publisher("/turtle1/cmd_vel",Twist,queue_size=10) 
+    rate = rospy.Rate(10)
 
-#We create a publisher with a name , a type and a queue size
-#Here queue_size acts as a buffer to give time for the subscriber to receive the message
+    while not rospy.is_shutdown():
+       twist = Twist()
+       twist.linear.x = 0.1
+       twist.linear.y = 0
+       twist.angular.z = -0.2
+       pub.publish(twist)
+       rate.sleep()
 
-    rospy.spin()
-
-#Along with the method sleep(), it offers an easy way to set the desired rate
-#WIth an argument of 2, the loop would run 2 times in a second
-
-if name == '  main  ';
+if __name__ == '__main__':
    try:
        turt_mov()
-    except rospy.ROSInterruptException:
-        pass
+   except rospy.ROSInterruptException:
+       pass
