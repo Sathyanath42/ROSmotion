@@ -2,60 +2,77 @@ The aim is to produce a program that provides commands to the turtle sim to make
 
 ***************************************************Python Code
 
-#this serves as a subscriber to the motion info topic 
-#and serves as a publisher to feed the directions to the turtle
-#find topics that give the position
-#find topics that make it move
+#q.4
 #!/usr/bin/env python
+
 import rospy
-#from std_msgs.msg import String 
 from geometry_msgs.msg import Twist
-#from turtlesim.msg import Pose
+from turtlesim.msg import Pose
+import math
+import time
+from std_srvs.srv import Empty
 
-#def callback_receive_motion_data(msg):
-#    rospy.loginfo("message received:")
-#    rospy.loginfo(msg)
-#    twist = Twist()
-#    twist.linear.x = msg.x
-#    twist.linear.y = msg.y
-#    pub.publish(twist)
+x=0
+y=0
+z=0
+yaw=0
 
-#rosmsg show turtlesim/Pose
-#float32 x
-#float32 y
-#float32 theta
-#float32 linear_velocity
-#float32 angular_velocity
+def poseCallback(pose_message):
+    global x, y, z, yaw
+    x= pose_message.x
+    y= pose_message.y
+    yaw = pose_message.theta
 
-#geometry_msgs/Vector3 linear
-#  float64 x
-#  float64 y
-#  float64 z
-#geometry_msgs/Vector3 angular
-#  float64 x
-#  float64 y
-#  float64 z
+def move(speed, distance):
+    velocity_message = Twist()
+    x0 = x
+    y0 = y
+    z0 = z
+    yaw0 = yaw
+    #task 1
+    velocity_message.linear.x = speed
+    
+    distance_moved = 0.0
+    loop_rate = rospy.Rate(10)
+    #Task 2 defined in main
+    
+    while True :
+        rospy.loginfo("Turtlesim moves forwards")
+        #task 3. publish the velocity message
+        twist = Twist()
+        twist.linear.x = 0.1
+        twist.linear.y = 0
+        twist.angular.z = 0  
+        velocity_publisher.publish(twist)       
+        loop_rate.sleep()
+        distance_moved = distance_moved+abs(0.5 * math.sqrt(((x-x0) ** 2) + ((y-y0) ** 2)))
+        print  distance_moved               
+        if not (distance_moved<distance):
+            rospy.loginfo("reached")
+            break        
+        #task 4. publish a velocity message zero to make the robot stop after the distance is reached
+        twist.linear.x = 0
+        twist.linear.y = 0
+        twist.angular.z = 0      
+        velocity_publisher.publish(twist)     
 
-
-# We import std_msgs to use the message string which contains a simple string data in it.
-
-def turt_mov():
-
-    rospy.init_node('turtle_mov_cmd',anonymous = True)
-    #sub = rospy.Subscriber("/turtle1/pose",Pose, callback_receive_motion_data)
-    pub = rospy.Publisher("/turtle1/cmd_vel",Twist,queue_size=10) 
-    rate = rospy.Rate(10)
-
-    while not rospy.is_shutdown():
-       twist = Twist()
-       twist.linear.x = 0.1
-       twist.linear.y = 0
-       twist.angular.z = -0.2
-       pub.publish(twist)
-       rate.sleep()
 
 if __name__ == '__main__':
-   try:
-       turt_mov()
-   except rospy.ROSInterruptException:
-       pass
+    try:  
+        rospy.init_node('turtlesim_motion_pose', anonymous=True)
+        velocity_topic = "/turtle1/cmd_vel"
+        velocity_publisher = rospy.Publisher(velocity_topic,Twist,move) 
+        position_topic = "/turtle1/pose"
+        pose_subscriber = rospy.Subscriber(position_topic, Pose, poseCallback)
+        time.sleep(2)
+        print 'move:'
+        move (1.0, 5.0)
+        time.sleep(2)
+        print 'start reset:'
+        rospy.wait_for_service('reset')
+        reset_turtle = rospy.ServiceProxy('reset', Empty)
+        reset_turtle()
+        print 'end reset: '
+        rospy.spin()      
+    except rospy.ROSInterruptException:
+        rospy.loginfo("node terminated.")
