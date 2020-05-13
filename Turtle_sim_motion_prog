@@ -34,16 +34,15 @@ def move(speed, distance):
     
     distance_moved = 0.0
     loop_rate = rospy.Rate(10)
-    #Task 2 defined in main
+    #task2
+    cmd_vel_topic='/turtle1/cmd_vel'
+    velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
+            
     
     while True :
         rospy.loginfo("Turtlesim moves forwards")
         #task 3. publish the velocity message
-        twist = Twist()
-        twist.linear.x = 0.1
-        twist.linear.y = 0
-        twist.angular.z = 0  
-        velocity_publisher.publish(twist)       
+        velocity_publisher.publish(velocity_message)               
         loop_rate.sleep()
         distance_moved = distance_moved+abs(0.5 * math.sqrt(((x-x0) ** 2) + ((y-y0) ** 2)))
         print  distance_moved               
@@ -51,10 +50,9 @@ def move(speed, distance):
             rospy.loginfo("reached")
             break        
         #task 4. publish a velocity message zero to make the robot stop after the distance is reached
-        twist.linear.x = 0
-        twist.linear.y = 0
-        twist.angular.z = 0      
-        velocity_publisher.publish(twist)     
+    velocity_message.linear.x =0
+    velocity_publisher.publish(velocity_message)
+  
 
 
 if __name__ == '__main__':
