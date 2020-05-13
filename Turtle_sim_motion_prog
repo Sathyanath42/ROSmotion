@@ -53,7 +53,7 @@ def move(speed, distance):
     velocity_message.linear.x =0
     velocity_publisher.publish(velocity_message)
   
-
+#Main loop
 
 if __name__ == '__main__':
     try:  
