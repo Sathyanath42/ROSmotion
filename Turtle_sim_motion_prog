@@ -29,12 +29,10 @@ def move(speed, distance):
     y0 = y
     z0 = z
     yaw0 = yaw
-    #task 1
     velocity_message.linear.x = speed
     
     distance_moved = 0.0
     loop_rate = rospy.Rate(10)
-    #task2
     cmd_vel_topic='/turtle1/cmd_vel'
     velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
             
