@@ -2,7 +2,6 @@ The aim is to produce a program that provides commands to the turtle sim to make
 
 ***************************************************Python Code
 
-#q.4
 #!/usr/bin/env python
 
 import rospy
