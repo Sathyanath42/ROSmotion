@@ -5,4 +5,5 @@ We will deifne the following functions:
    double degrees2radians(double angle_in_degrees)
 3. void moveGoal(tutrlesim::Pose goal_pose, double distance_tolerance): gives the end position and the amount of error that can be tolerated
 
-!. Moving in a straight line
+Function 1:
+Moving in a straight line
