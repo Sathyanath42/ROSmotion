@@ -9,6 +9,7 @@ Function 1:
 Moving in a straight line
 
 #!/usr/bin/env python
+# license removed for brevity
 import rospy
 from geometry_msgs import Twist 
 from std_msgs.msg import String
@@ -27,7 +28,20 @@ from std_msgs.msg import String
     velocity_message.angular.x = 0
     velocity_message.angular.y = 0
     velocity_message.angular.z = 0
+    distance_moved = 0.0
+    loop_rate = rospy.Rate(10)
 
+    while True:
+        rospy.loginfo("Turtlesim moves forwards")     
+        velocity_publisher.publish(velocity_message)    
+        distance_moved = velocity_message.linear.x * abs(time)
+         if not (distance_moved<distance):
+            rospy.loginfo("reached")
+            break               
+    #mesaure the current time
+    #publish the velocity
+    #estimated sitance = v * t
+    #exit condition (estimated is equal/greater than stop ditsnace)
 
  if __name__ == '__main__':
      try:
