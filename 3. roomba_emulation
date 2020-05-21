@@ -7,3 +7,33 @@ We will deifne the following functions:
 
 Function 1:
 Moving in a straight line
+
+#!/usr/bin/env python
+import rospy
+from geometry_msgs import Twist 
+from std_msgs.msg import String
+ 
+ def move(int speed,int distance, bool dir):    
+    velocity_message = Twist()
+    #setting linear velocities
+    if dir
+       velocity_message.linear.x = abs(speed)
+    else 
+       velocity_message.linear.x = -abs(speed)
+    velocity_message.linear.y = 0
+    velocity_message.linear.z = 0
+
+    #setting angular velocities
+    velocity_message.angular.x = 0
+    velocity_message.angular.y = 0
+    velocity_message.angular.z = 0
+
+
+ if __name__ == '__main__':
+     try:
+        rospy.init_node('mover', anonymous=True) 
+        velocity_topic = "/turtle1/cmd_vel"
+        velocity_pub = rospy.Publisher(velocity_topic, Twist, move)
+        move(3,10,1)
+     except rospy.ROSInterruptException:
+         pass
