@@ -9,12 +9,11 @@ Function 1:
 Moving in a straight line
 
 #!/usr/bin/env python
-# license removed for brevity
 import rospy
 from geometry_msgs.msg import Twist 
 from std_msgs.msg import String
- 
-global velocity_message
+import time
+
 
 def move(speed,distance, dir):    
     velocity_message = Twist()
@@ -35,16 +34,23 @@ def move(speed,distance, dir):
     now = rospy.get_rostime()
     t0 = now.secs
     distance_moved = 0
+    cmd_vel_topic='/turtle1/cmd_vel'
+    velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
 
     while True:
         rospy.loginfo("Turtlesim moves forwards")     
         velocity_publisher.publish(velocity_message)    
+        loop_rate.sleep()
         later = rospy.get_rostime()
         t1 = later.secs
         distance_moved = abs(speed) * abs(t1-t0)
-        if not (distance_moved > distance):
+        if not (distance_moved < distance):
             rospy.loginfo("reached")
-        break               
+            break       
+    
+    velocity_message.linear.x =0
+    velocity_publisher.publish(velocity_message)
+            
     #mesaure the current time
     #publish the velocity
     #estimated sitance = v * t
@@ -55,6 +61,14 @@ if __name__ == '__main__':
         rospy.init_node('mover', anonymous=True) 
         velocity_topic = "/turtle1/cmd_vel"
         velocity_publisher = rospy.Publisher(velocity_topic, Twist, move, queue_size = 10)
+        print 'move:'
         move(0.1,10,1)
+        time.sleep(2)
+        print 'start reset:'
+        rospy.wait_for_service('reset')
+        reset_turtle = rospy.ServiceProxy('reset', Empty)
+        reset_turtle()
+        print 'end reset: '
+        rospy.spin()          
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")
