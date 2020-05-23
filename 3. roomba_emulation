@@ -6,7 +6,7 @@ We will deifne the following functions:
 3. void moveGoal(tutrlesim::Pose goal_pose, double distance_tolerance): gives the end position and the amount of error that can be tolerated
 
 Function 1:
-Moving in a straight line
+Moving in a straight line : feed in speed, distance and direction
 
 #!/usr/bin/env python
 import rospy
