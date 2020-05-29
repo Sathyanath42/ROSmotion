@@ -1,7 +1,7 @@
 Here we emulate the motion of a roomba machine in cleaning a room with turtlesim
 We will deifne the following functions:
 1. void move (double speed, double distance, bool is_forward)
-2. void rotate (double angular_speed, double angle, bool clockwise)
+2. void rotate (double angular_speed, double angle,bool clockwise)
    double degrees2radians(double angle_in_degrees)
 3. void moveGoal(tutrlesim::Pose goal_pose,double distance_tolerance): gives the end position and the amount of error that can be tolerated
 
