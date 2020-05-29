@@ -47,7 +47,7 @@ def move(speed,distance, dir):
         loop_rate.sleep()
         later = rospy.get_rostime()
         t1 = later.secs
-        rospy.loginfo("Later time %i", t1)
+        rospy.loginfo("Later time %i",t1)
         distance_moved = abs(speed) * abs(t1-t0)
         if not (distance_moved < distance):
             rospy.loginfo("reached")
