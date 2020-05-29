@@ -76,4 +76,4 @@ if __name__ == '__main__':
         print 'end reset: '
         rospy.spin()          
     except rospy.ROSInterruptException:
-        rospy.loginfo("node terminated.")
+        rospy.loginfo("node has been terminated.")
