@@ -1,4 +1,4 @@
-Here we emulate the motion of a roomba machine in cleaning a room with turtlesim
+Here we emulate the motion of a roomba machine in cleaning a room with,turtlesim
 We will deifne the following functions:
 1. void move (double speed, double distance, bool is_forward)
 2. void rotate (double angular_speed, double angle,bool clockwise)
