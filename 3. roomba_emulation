@@ -87,7 +87,7 @@ if __name__ == '__main__':
         rospy.wait_for_service('reset')
         reset_turtle = rospy.ServiceProxy('reset', Empty)
         reset_turtle()
-        print 'end reset: '
+        print 'end reset:'
         rospy.spin()          
     except rospy.ROSInterruptException:
         rospy.loginfo("node has been terminated.")
