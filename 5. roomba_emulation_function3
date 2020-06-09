@@ -84,6 +84,7 @@ def rotate(angular_speed_degree, relative_angle_degree, clockwise):
     vel_msg.angular.z = 0
     velocity_publisher.publish(vel_msg)
 
+#the linear velocity turns to zero as it approaches the target
 def linear_velocity(xdot,ydot,xi,yi)
     kv = 1.5
     vdot = kv*((xdot-xi)^2 + (ydot - yi)^2)^0.5
@@ -92,6 +93,11 @@ def linear_velocity(xdot,ydot,xi,yi)
 def steering_angle(xdot,ydot,xi,yi)
     thetadot = math.atan((ydot - yi)/(xdot - xi))
     return thetadot
+
+def proportional_c(thetadot, theta)
+    kh = 1.5
+    a_vel = kh*(thetadot-theta)
+    return a_vel
 
 def starting_point(destination, margin)
     det_msg = Twist()
@@ -167,6 +173,7 @@ if __name__ == '__main__':
         #d = input("Input the direction: 1 for forward, 0 for reverse)")
         move (1,20,1)
         rotate(10,90,1)
+        move (1,20,1)
         time.sleep(2)
 
         #for resetting the turtle
