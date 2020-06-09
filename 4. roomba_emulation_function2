@@ -1,6 +1,5 @@
 Function 2: Rotate, to have the turtle rotate to the orientation we desire
 
-
 #!/usr/bin/env python
 import rospy
 from geometry_msgs.msg import Twist
@@ -18,7 +17,7 @@ def poseCallback(pose_message):
     global x
     global y, z, yaw
     
-    #obtaining the positions
+    #obtaining the positions with global access
     x= pose_message.x
     y= pose_message.y
     yaw = pose_message.theta
@@ -34,6 +33,7 @@ def rotate(angular_speed_degree, relative_angle_degree, clockwise):
     vel_msg.angular.z = 0
     
     theta0 = yaw
+    #converting from degrees to radians
     angular_speed = math.radians(abs(angular_speed_degree))
     
     
@@ -45,6 +45,7 @@ def rotate(angular_speed_degree, relative_angle_degree, clockwise):
     angle_moved = 0.0
     loop_rate = rospy.Rate(10) # we publish the velocity at 100 Hz (100 times a second)    
     
+    #initial time
     t0 = rospy.Time.now().to_sec() 
 
     while True :
@@ -53,21 +54,22 @@ def rotate(angular_speed_degree, relative_angle_degree, clockwise):
         else:
             rospy.loginfo("Turtle rotates anticlockwise")
 
+        #publisher
         cmd_vel_topic='/turtle1/cmd_vel'
         velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)        
         velocity_publisher.publish(vel_msg)
         
+        #calculating the current angle
         t1 = rospy.Time.now().to_sec()
         current_angle_degree = (t1-t0)*angular_speed_degree
         loop_rate.sleep()
                        
-
-        #check if the distance has reached         
+        #check if the angle has reached         
         if  current_angle_degree>relative_angle_degree:
             rospy.loginfo("reached")
             break
 
-
+    #publish zero velocity to stop 
     vel_msg.angular.z = 0
     velocity_publisher.publish(vel_msg)
 
@@ -110,8 +112,11 @@ def move(speed, distance, direction):
             break
             
     #finally, stop the robot when the goal has been reached
-    velocity_message.linear.x =0
+    velocity_message.linear.x = 0
     velocity_publisher.publish(velocity_message)
+
+#def goal(destination, tolerance):
+
     
 if __name__ == '__main__':
     try:
@@ -132,8 +137,8 @@ if __name__ == '__main__':
         #s = input("Input the velocity")
         #l = input("Input the distance")
         #d = input("Input the direction: 1 for forward, 0 for reverse)")
-        #move (s,l,d)
-        rotate(10,45,1)
+        move (1,20,1)
+        rotate(10,90,1)
         time.sleep(2)
 
         #for resetting the turtle
@@ -147,3 +152,4 @@ if __name__ == '__main__':
        
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")
+
