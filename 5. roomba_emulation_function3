@@ -1,7 +1,7 @@
 Function 3: Go to goal
 
-Theory
-Moving to a point(xdot,ydot) in the 2D plane
+############################Theory
+Moving to a point(xdot,ydot) in the 2D plane:
 
 1. linear_velocity = vdot = Kv*((xdot - xi)^2 + (ydot - yi)^2))^0.5
 
