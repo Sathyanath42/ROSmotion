@@ -3,8 +3,8 @@ Function 3: Go to goal
 Theory
 Moving to a point(xdot,ydot) in the 2D plane
 
-1. linear_velocity = vdot = Kv*((xdot - xini)^2 + (ydot - yini)^2))^0.5
+1. linear_velocity = vdot = Kv*((xdot - xi)^2 + (ydot - yi)^2))^0.5
 
-2. steering_angle = thetadot = atan((ydot - yini)/(xdot - xini))
+2. steering_angle = thetadot = atan((ydot - yi)/(xdot - xi))
 
 3. Proportional_controller = gamma = kh*(thetadot - theta), kh >0
