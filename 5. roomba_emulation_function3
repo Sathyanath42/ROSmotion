@@ -7,7 +7,7 @@ Moving to a point(xdot,ydot) in the 2D plane:
 
 2. steering_angle = thetadot = atan((ydot - yi)/(xdot - xi))
 
-3. Proportional_controller = gamma = kh*(thetadot - theta), kh >0
+3. Proportional_controller = gamma = kh*(thetadot - theta), kh>0
 
 ##############################CODE
 
