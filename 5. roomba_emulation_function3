@@ -84,30 +84,6 @@ def rotate(angular_speed_degree, relative_angle_degree, clockwise):
     vel_msg.angular.z = 0
     velocity_publisher.publish(vel_msg)
 
-#the linear velocity turns to zero as it approaches the target
-def linear_velocity(xdot,ydot,xi,yi)
-    kv = 1.5
-    vdot = kv*((xdot-xi)^2 + (ydot - yi)^2)^0.5
-    return vdot
-
-def steering_angle(xdot,ydot,xi,yi)
-    thetadot = math.atan((ydot - yi)/(xdot - xi))
-    return thetadot
-
-def proportional_c(thetadot, theta)
-    kh = 1.5
-    a_vel = kh*(thetadot-theta)
-    return a_vel
-
-def starting_point(destination, margin)
-    det_msg = Twist()
-    det_msg.linear.x = 0
-    det_msg.linear.y = 0
-    det_msg.linear.z = 0
-    det_msg.angular.x = 0
-    det_msg.angular.y = 0
-    det_msg.angular.z = 0
-
 def move(speed, distance, direction):
     #declare a Twist message to send velocity commands
     velocity_message = Twist()
@@ -149,7 +125,41 @@ def move(speed, distance, direction):
     velocity_message.linear.x = 0
     velocity_publisher.publish(velocity_message)
 
-#def goal(destination, tolerance):
+def linear_velocity(xdot,ydot,xi,yi)
+    kv = 1.5
+    vdot = kv*((xdot-xi)^2 + (ydot - yi)^2)^0.5
+    return vdot
+
+def steering_angle(xdot,ydot,xi,yi)
+    thetadot = math.atan((ydot - yi)/(xdot - xi))
+    return thetadot
+
+def proportional_c(thetadot, theta)
+    kh = 1.5
+    a_vel = kh*(thetadot-theta)
+    return a_vel
+
+
+def goal(destination, tolerance):
+
+    global x, y, yaw
+    #intial values
+    x0 = x
+    y0 = y
+    theta0 = yaw
+
+    #values of destination
+    xdot = destination.x
+    ydot = destination.y
+    thetadot = destination.theta
+
+    #formulae applied
+    final_lv = linear_velocity(xdot, ydot, x, y)
+    av = steering_angle(xdot, ydot, x, y)
+    final_av = proportional_c(av, thet0)
+
+    move(lv, )
+
 
     
 if __name__ == '__main__':
