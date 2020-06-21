@@ -143,7 +143,7 @@ def proportional_c(thetadot, theta)
 def goal(destination, tolerance):
 
     global x, y, yaw
-    #intial values
+    #initial values
     x0 = x
     y0 = y
     theta0 = yaw
@@ -151,16 +151,32 @@ def goal(destination, tolerance):
     #values of destination
     xdot = destination.x
     ydot = destination.y
-    thetadot = destination.theta
 
     #formulae applied
     final_lv = linear_velocity(xdot, ydot, x, y)
     av = steering_angle(xdot, ydot, x, y)
-    final_av = proportional_c(av, thet0)
+    final_av = proportional_c(av, theta0)
 
-    move(lv, )
+    #apply these values into the message
+    goal_message = Twist()
+    goal_message.linear.x = final_lv
+    goal_message.linear.y = 0
+    goal_message.linear.z = 0
+    goal_message.angular.x = 0
+    goal_message.angular.y = 0
+    goal_message.angular.z = final_av
 
+    loop_rate = rospy.Rate(100)
 
+    while True :
+        cmd_vel_topic = '/turtle1/cmd_vel'
+        velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size =10)
+        velocity_publisher.publish(goal_message)
+        loop_rate.sleep()
+
+        if not (final_lv):
+           rospy.loginfo('reached')
+           break
     
 if __name__ == '__main__':
     try:
