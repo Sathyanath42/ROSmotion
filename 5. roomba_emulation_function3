@@ -125,59 +125,60 @@ def move(speed, distance, direction):
     velocity_message.linear.x = 0
     velocity_publisher.publish(velocity_message)
 
-def linear_velocity(xdot,ydot,xi,yi)
+def linear_velocity(xdot,ydot,xi,yi):
     kv = 1.5
-    vdot = kv*((xdot-xi)^2 + (ydot - yi)^2)^0.5
+    vdot = kv*((xdot-xi)**2 + (ydot-yi)**2)**0.5
     return vdot
 
-def steering_angle(xdot,ydot,xi,yi)
+def steering_angle(xdot,ydot,xi,yi):
     thetadot = math.atan((ydot - yi)/(xdot - xi))
     return thetadot
 
-def proportional_c(thetadot, theta)
+def proportional_c(thetadot, theta):
     kh = 1.5
     a_vel = kh*(thetadot-theta)
     return a_vel
 
 
-def goal(destination, tolerance):
+def goal(destx,desty,tolerance):
 
-    global x, y, yaw
-    #initial values
-    x0 = x
-    y0 = y
     theta0 = yaw
-
     #values of destination
-    xdot = destination.x
-    ydot = destination.y
+    xdot = destx + tolerance
+    ydot = desty + tolerance
 
     #formulae applied
-    final_lv = linear_velocity(xdot, ydot, x, y)
-    av = steering_angle(xdot, ydot, x, y)
-    final_av = proportional_c(av, theta0)
+    #final_lv = linear_velocity(xdot, ydot, x, y)
+    #av = steering_angle(xdot, ydot, x, y)
+    #final_av = proportional_c(av, theta0)
 
     #apply these values into the message
-    goal_message = Twist()
-    goal_message.linear.x = final_lv
-    goal_message.linear.y = 0
-    goal_message.linear.z = 0
-    goal_message.angular.x = 0
-    goal_message.angular.y = 0
-    goal_message.angular.z = final_av
-
     loop_rate = rospy.Rate(100)
 
     while True :
+
+        goal_message = Twist()
+        goal_message.linear.x = linear_velocity(xdot,ydot,x,y)
+        goal_message.linear.y = 0
+        goal_message.linear.z = 0
+        goal_message.angular.x = 0
+        goal_message.angular.y = 0
+        goal_message.angular.z = proportional_c(steering_angle(xdot,ydot,x,y), theta0)
+
         cmd_vel_topic = '/turtle1/cmd_vel'
         velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size =10)
         velocity_publisher.publish(goal_message)
         loop_rate.sleep()
 
-        if not (final_lv):
+        if not (linear_velocity(xdot,ydot,x,y)):
            rospy.loginfo('reached')
            break
     
+    goal_message.linear.x = 0
+    goal_message.angular.z = 0
+    velocity_publisher.publish(goal_message)
+
+
 if __name__ == '__main__':
     try:
         #initialise node
@@ -197,11 +198,13 @@ if __name__ == '__main__':
         #s = input("Input the velocity")
         #l = input("Input the distance")
         #d = input("Input the direction: 1 for forward, 0 for reverse)")
-        move (1,20,1)
-        rotate(10,90,1)
-        move (1,20,1)
-        time.sleep(2)
 
+        #move (1,20,1)
+        #rotate(10,90,1)
+        #move (1,20,1)
+        #time.sleep(2)
+
+        goal(2,2,0)
         #for resetting the turtle
         print 'start reset: '
         rospy.wait_for_service('reset')
