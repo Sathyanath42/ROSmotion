@@ -127,7 +127,7 @@ def move(speed, distance, direction):
 
 def linear_velocity(xdot,ydot,xi,yi):
     kv = 1.5
-    vdot = kv*((xdot-xi)**2 + (ydot-yi)**2)**0.5
+    vdot = kv*abs(math.sqrt(((xdot-xi)**2 + (ydot-yi)**2)))
     return vdot
 
 def steering_angle(xdot,ydot,xi,yi):
@@ -141,11 +141,12 @@ def proportional_c(thetadot, theta):
 
 
 def goal(destx,desty,tolerance):
+    global x, y, z
+    global yaw
 
-    theta0 = yaw
     #values of destination
-    xdot = destx + tolerance
-    ydot = desty + tolerance
+    xf = destx + tolerance
+    yf = desty + tolerance
 
     #formulae applied
     #final_lv = linear_velocity(xdot, ydot, x, y)
@@ -158,19 +159,19 @@ def goal(destx,desty,tolerance):
     while True :
 
         goal_message = Twist()
-        goal_message.linear.x = linear_velocity(xdot,ydot,x,y)
+        goal_message.linear.x = linear_velocity(xf,yf,x,y)
         goal_message.linear.y = 0
         goal_message.linear.z = 0
         goal_message.angular.x = 0
         goal_message.angular.y = 0
-        goal_message.angular.z = proportional_c(steering_angle(xdot,ydot,x,y), theta0)
+        goal_message.angular.z = proportional_c(steering_angle(xf,yf,x,y), yaw)
 
         cmd_vel_topic = '/turtle1/cmd_vel'
         velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size =10)
         velocity_publisher.publish(goal_message)
         loop_rate.sleep()
 
-        if not (linear_velocity(xdot,ydot,x,y)):
+        if (linear_velocity(xf,yf,x,y)<0.01):
            rospy.loginfo('reached')
            break
     
@@ -204,7 +205,8 @@ if __name__ == '__main__':
         #move (1,20,1)
         #time.sleep(2)
 
-        goal(2,2,0)
+        goal(9,9,0)
+
         #for resetting the turtle
         print 'start reset: '
         rospy.wait_for_service('reset')
