@@ -135,7 +135,7 @@ def steering_angle(xdot,ydot,xi,yi):
     return thetadot
 
 def proportional_c(thetadot, theta):
-    kh = 1.5
+    kh = 4.0
     a_vel = kh*(thetadot-theta)
     return a_vel
 
