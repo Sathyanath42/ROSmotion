@@ -54,7 +54,7 @@ def rotate(angular_speed_degree, relative_angle_degree, clockwise):
         vel_msg.angular.z = abs(angular_speed)
 
     angle_moved = 0.0
-    loop_rate = rospy.Rate(10) # we publish the velocity at 100 Hz (100 times a second)    
+    loop_rate = rospy.Rate(200) # we publish the velocity at 100 Hz (100 times a second)    
     
     #initial time
     t0 = rospy.Time.now().to_sec() 
@@ -98,7 +98,7 @@ def move(speed, distance, direction):
     else:
         velocity_message.linear.x = -speed
     distance_moved = 0.0
-    loop_rate = rospy.Rate(100) # we publish the velocity at 100 Hz (100 times a second)    
+    loop_rate = rospy.Rate(200) # we publish the velocity at 100 Hz (100 times a second)    
             
     while True :
         if direction:
@@ -118,7 +118,7 @@ def move(speed, distance, direction):
 
         #check if the distance has reached         
         if  not (distance_moved<distance):
-            rospy.loginfo("reached")
+            rospy.loginfo("reached distance")
             break
             
     #finally, stop the robot when the goal has been reached
@@ -126,7 +126,7 @@ def move(speed, distance, direction):
     velocity_publisher.publish(velocity_message)
 
 def linear_velocity(xdot,ydot,xi,yi):
-    kv = 1.5
+    kv = 0.5
     vdot = kv*abs(math.sqrt(((xdot-xi)**2 + (ydot-yi)**2)))
     return vdot
 
@@ -181,6 +181,8 @@ def goal(destx,desty,tolerance):
 
 
 if __name__ == '__main__':
+
+
     try:
         #initialise node
         rospy.init_node('turtlesim_motion_pose', anonymous=True)
@@ -194,18 +196,41 @@ if __name__ == '__main__':
         pose_subscriber = rospy.Subscriber(position_topic, Pose, poseCallback) 
         time.sleep(2)
         
-        #for feeding in the values
-        print 'move: '
-        #s = input("Input the velocity")
-        #l = input("Input the distance")
-        #d = input("Input the direction: 1 for forward, 0 for reverse)")
+        #final execution : grid mode
 
-        #move (1,20,1)
-        #rotate(10,90,1)
-        #move (1,20,1)
-        #time.sleep(2)
+        goal(10,10,0)
+        #rotate(7,124,1)
+        #rotate(9,126,1)
+        #rotate(8,128,1) #great one
+        rotate(8,136,1)
+        #rotate(10,130,1)
 
-        goal(9,9,0)
+        move(5,500,1)
+        rotate(8,88,1)
+
+        move(5,30,1)
+        rotate(8,88,1)
+
+        move(5,500,1)
+        rotate(8,88,0)   
+
+        move(5,30,1)
+        rotate(8,88,0)    
+
+        move(5,500,1)
+        rotate(8,88,1)  
+
+        move(5,30,1)
+        rotate(8,88,1)
+
+        move(5,500,1)
+        rotate(8,88,0)
+
+        move(5,30,1)
+        rotate(8,88,0)
+
+        move(5,500,1)
+        goal(10,10,0)
 
         #for resetting the turtle
         print 'start reset: '
