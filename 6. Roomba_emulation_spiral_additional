@@ -1,6 +1,6 @@
 This serves to offer an alternative to the grid based movement wherein the robot moves in concentric spirals
 
-*******CODE*****
+*******CODE***
 
 #!/usr/bin/env python
 import rospy
