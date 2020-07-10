@@ -13,13 +13,32 @@ image_name = "tree"
 print 'read an image from the file'
 color_image = cv2.imread("images/"+image_name+".jpg",cv2.IMREAD_COLOR)
 
-#print 'create a window holder for the image'
+# creating a window holder for the image'
 #cv2.namedWindow("Image", cv2.WINDOW_NORMAL) #default is cv2.WINDOW_AUTOSIZE, what ive used allows us to resize the window
 
 print 'display the image in native color'
 cv2.imshow("Image",color_image)
-cv2.moveWindow("Original Image",0,0)
-print(color_image.shape)
+cv2.moveWindow("Original Image",0,0) 
+#used to display in a window, must be used with the bottom command:
+#waitKey
+print(color_image.shape) 
+
+height,width,channels = color_image.shape
+
+print 'slipt the image into three channels.'
+blue,green,red = cv2.split(color_image)
+
+cv2.imshow("Blue Channel",blue)
+cv2.moveWindow("Blue Channel",0,height)
+
+cv2.imshow("Red Channel",red)
+cv2.moveWindow("Red Channel",0,height)
+
+cv2.imshow("Green Channel",green)
+cv2.moveWindow("Green Channel",0,height)
+
+#prints shape of the image ie 
+#It returns a tuple of the number of rows, columns, and channels (if the image is color)
 
 #print 'press a key inside the image to make a copy'
 #cv2.waitKey(0)
