@@ -25,6 +25,7 @@ print(color_image.shape)
 
 height,width,channels = color_image.shape
 
+#splitting the image in terms of rgb
 print 'slipt the image into three channels.'
 blue,green,red = cv2.split(color_image)
 
@@ -36,6 +37,14 @@ cv2.moveWindow("Red Channel",0,height)
 
 cv2.imshow("Green Channel",green)
 cv2.moveWindow("Green Channel",0,height)
+
+#splitting the image in terms of hue , saturaion and value, better in lighted conditions
+print '---- slipt the image into Hue, Saturation, Value channels.----- '
+hsv = cv2.cvtColor(color_image, cv2.COLOR_BGR2HSV)
+h,s,v = cv2.split(hsv)
+hsv_image = np.concatenate((h,s,v),axis=1)
+cv2.imshow("Hue, Saturation, Value Image",hsv_image)
+cv2.imshow("HSV Image",hsv)
 
 #prints shape of the image ie 
 #It returns a tuple of the number of rows, columns, and channels (if the image is color)
