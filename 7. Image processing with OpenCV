@@ -2,10 +2,10 @@
 ##################CODE
 #!/usr/bin/env python
 
-#import numpy, a data tsructure that will handle the image
+#import numpy, a data structure that will handle the image
+#library for storing multi dimensional arrays
 
-import numpy as np #library for storing multi dimensional arrays
-
+import numpy as np 
 import cv2
 
 image_name = "tree"
@@ -19,9 +19,9 @@ color_image = cv2.imread("images/"+image_name+".jpg",cv2.IMREAD_COLOR)
 print 'display the image in native color'
 cv2.imshow("Image",color_image)
 cv2.moveWindow("Original Image",0,0) 
-#used to display in a window, must be used with the bottom command:
-#waitKey
+#used to display in a window, must be used with the bottom command: waitKey
 print(color_image.shape) 
+#prints shape of the image ie It returns a tuple of the number of rows, columns, and channels (if the image is color)
 
 height,width,channels = color_image.shape
 
@@ -38,16 +38,14 @@ cv2.moveWindow("Red Channel",0,height)
 cv2.imshow("Green Channel",green)
 cv2.moveWindow("Green Channel",0,height)
 
-#splitting the image in terms of hue , saturaion and value, better in lighted conditions
+#splitting the image in terms of hue , saturation and value, better in lighted conditions
+
 print '---- slipt the image into Hue, Saturation, Value channels.----- '
 hsv = cv2.cvtColor(color_image, cv2.COLOR_BGR2HSV)
 h,s,v = cv2.split(hsv)
 hsv_image = np.concatenate((h,s,v),axis=1)
 cv2.imshow("Hue, Saturation, Value Image",hsv_image)
 cv2.imshow("HSV Image",hsv)
-
-#prints shape of the image ie 
-#It returns a tuple of the number of rows, columns, and channels (if the image is color)
 
 #print 'press a key inside the image to make a copy'
 #cv2.waitKey(0)
