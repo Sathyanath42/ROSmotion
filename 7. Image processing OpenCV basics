@@ -1,4 +1,4 @@
-The followng code deals iwth processing images into there forms, RGB, HSV and Greyscale
+The followng code deals with processing images into there forms, RGB, HSV and Greyscale
 
 ##################CODE
 #!/usr/bin/env python
@@ -61,4 +61,10 @@ Thresholding: Mainly two types , Simple and adaptive thresholding
 Simple thresholding: If a pixel is greater than a certain value it is assigned to white ie 255, adn assigned to black ie 0 when below that value
 Adpative thresholding: Better suited for varying lighting conditions, the threshold is calculated for a small region, different regions different thresholds.
 This can be in terms of mean of the region or wighted sum of the thresholded values (Gaussian)
+
+
+
+
+
+
 
