@@ -20,3 +20,7 @@ while(True):
 
 video_capture.release()
 cv2.destroyAllWindows()
+**************************************************
+
+When working with ROS we need to tranform the image format types between openCV and ROS. CVbridge allows us to do just that. 
+Essentially ROS image message to CVbridge to OpenCV
