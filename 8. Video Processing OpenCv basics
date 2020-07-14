@@ -1,4 +1,4 @@
-Accessing a video file or the webcam input 
+Accessing a video file or the webcam input, the idea behind either is to access it frame by frame in a while loop and then work as a regular image
 *******************CODE
 #!/usr/bin/env python 
 
@@ -11,9 +11,9 @@ video_capture = cv2.VideoCapture(0)
 while(True):
 	ret, frame = video_capture.read()
 	
-	#frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-	#frame = cv2.resize(frame, (0,0), fx=0.5,fy=0.5)
-	#cv2.line(frame,(0,0),(511,511),(255,0,0),5)
+	#frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #to turn the video to grayscale in output
+	#frame = cv2.resize(frame, (0,0), fx=0.5,fy=0.5) #toresize the video window in output
+	#cv2.line(frame,(0,0),(511,511),(255,0,0),5)     #to draw a line in the video window output
 	cv2.imshow("Frame",frame)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
