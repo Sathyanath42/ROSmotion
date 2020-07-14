@@ -24,3 +24,56 @@ cv2.destroyAllWindows()
 
 When working with ROS we need to tranform the image format types between openCV and ROS. CVbridge allows us to do just that. 
 Essentially ROS image message to CVbridge to OpenCV
+
+***************CODE
+
+#!/usr/bin/env python
+
+import rospy
+import cv2
+from std_msgs.msg import String
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge, CvBridgeError
+import sys
+
+bridge = CvBridge()
+
+def image_callback(ros_image):
+  print 'got an image'
+  global bridge
+
+  #using cvbridge to convert ros_image into an opencv-compatible image
+
+  try:
+    cv_image = bridge.imgmsg_to_cv2(ros_image, "bgr8")
+  except CvBridgeError as e:
+      print(e)
+
+  #regular flow of opencv from here on
+
+  (rs,cs,chs) = cv_image.shape
+  if cs > 200 and rs > 200 :
+      cv2.circle(cv_image, (500,500), 300, 90)
+  font = cv2.FONT_ITALIC
+  cv2.putText(cv_image,'Running ROS & OpenCV',(10,350), font, 1,(255,255,255),2,cv2.LINE_AA)
+  cv2.imshow("Image window", cv_image)
+  cv2.waitKey(3)
+
+  
+def main(args):
+  rospy.init_node('image_converter', anonymous=True)
+  #for turtlebot3 waffle
+  #image_topic="/camera/rgb/image_raw/compressed"
+  #for usb cam
+  #image_topic="/usb_cam/image_raw"
+  image_sub = rospy.Subscriber("/usb_cam/image_raw",Image, image_callback)
+  try:
+    rospy.spin()
+  except KeyboardInterrupt:
+    print("Closing all windows")
+  cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    main(sys.argv)
+    
+ *********************************************************
