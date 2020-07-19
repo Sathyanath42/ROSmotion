@@ -183,42 +183,75 @@ if __name__ == '__main__':
         pose_subscriber = rospy.Subscriber(position_topic, Pose, poseCallback) 
         time.sleep(2)
         
+        c = input("Enter the type of motion: 1 for grid, 2 for spiral")
+        if (c == 1) :
         #final execution : grid mode
 
-        goal(10,10,0)
+            goal(10,10,0)
         #rotate(7,124,1)
         #rotate(9,126,1)
         #rotate(8,128,1) #great one
-        rotate(8,136,1)
+            rotate(8,136,1)
         #rotate(10,130,1)
 
-        move(5,500,1)
-        rotate(8,88,1)
+            move(5,500,1)
+            rotate(8,88,1)
 
-        move(5,30,1)
-        rotate(8,88,1)
+            move(5,30,1)
+            rotate(8,88,1)
 
-        move(5,500,1)
-        rotate(8,88,0)   
+            move(5,500,1)
+            rotate(8,88,0)   
 
-        move(5,30,1)
-        rotate(8,88,0)    
+            move(5,30,1)
+            rotate(8,88,0)    
 
-        move(5,500,1)
-        rotate(8,88,1)  
+            move(5,500,1)
+            rotate(8,88,1)  
 
-        move(5,30,1)
-        rotate(8,88,1)
+            move(5,30,1)
+            rotate(8,88,1)
 
-        move(5,500,1)
-        rotate(8,88,0)
+            move(5,500,1)
+            rotate(8,88,0)
 
-        move(5,30,1)
-        rotate(8,88,0)
+            move(5,30,1)
+            rotate(8,88,0)
 
-        move(5,500,1)
-        goal(10,10,0)
+            move(5,500,1)
+            goal(10,10,0)
 
+        else:
+ 
+            spiral_message = Twist()
+            constant_velocity = 20
+            vv = 0
+            loop_rate = rospy.Rate(100)
+
+            while True: 
+                
+                vv = vv + 0.2 
+                spiral_message.linear.x = vv
+                spiral_message.linear.y = 0
+                spiral_message.linear.z = 0
+                spiral_message.angular.x = 0
+                spiral_message.angular.y = 0
+                spiral_message.angular.z = constant_velocity
+
+                cmd_vel_topic = '/turtle1/cmd_vel'
+                velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size =10)
+                velocity_publisher.publish(spiral_message)
+                loop_rate.sleep()
+
+                if (vv > 100):
+                    rospy.loginfo('spiral reached')
+                    break
+                   
+            spiral_message.linear.x = 0
+            spiral_message.angular.z = 0
+            velocity_publisher.publish(spiral_message)     
+
+ 
         #for resetting the turtle
         print 'start reset: '
         rospy.wait_for_service('reset')
