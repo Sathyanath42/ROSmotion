@@ -1,0 +1,25 @@
+Install freenect for kinect interfacing:
+$ sudo apt-get install libfreenect-dev
+$ sudo apt-get install ros-melodic-freenect-launch
+
+Install RTABMAP_ROS
+$ sudo apt-get install ros-melodic-rtabmap-ros
+
+Install depthimage_to_laserscan
+$ sudo apt-get install ros-melodic-depthimage-to-laserscan
+
+Install gmapping
+$ sudo apt-get install ros-indigo-slam-mapping
+
+RUNNING THE KINECT
+$ roscore
+$ roslaunch freenect_launch freenect.launch
+$ rosrun depthimage_to_laserscan depthimage_to_laserscan image:=/camera/depth/image_raw
+$ rosrun rviz rviz
+
+Running gmapping
+$rosrun gmapping slam_gmapping scan:=base_scan
+
+
+
+
